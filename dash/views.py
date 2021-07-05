@@ -162,8 +162,8 @@ class getData(APIView):
     permission_classes = []
     def post(self, request, format = None):
         data = {
-            'Name' : Hriday,
-            'Job' : Developer
+            'Name' : "Hriday",
+            'Job' : "Developer"
 
         }
         return Response(data)
