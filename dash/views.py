@@ -160,7 +160,7 @@ import random
 class getData(APIView):
     authentication_classes = []
     permission_classes = []
-    def post(self, request, format = None):
+    def get(self, request, format = None):
         data = {
             'Name' : "Hriday",
             'Job' : "Developer"
