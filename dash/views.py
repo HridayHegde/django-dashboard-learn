@@ -162,6 +162,8 @@ class getData(APIView):
     permission_classes = []
     def post(self, request, format = None):
         data = {
-            'number' : random.randrange(0,99999,1)
+            'Name' : Hriday,
+            'Job' : Developer
+
         }
         return Response(data)
