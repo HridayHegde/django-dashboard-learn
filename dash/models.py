@@ -16,5 +16,10 @@ class Ticket(models.Model):
         return self.ticket_id
 
     
-    
+class tokens(models.Model):
+    tokenid = models.AutoField(primary_key=True)
+    token_owner = models.CharField(max_length=400,unique=True)
+
+    def __str__(self):
+        return self.token_owner
 

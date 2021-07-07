@@ -13,7 +13,12 @@ urlpatterns = [
     path('showticket/<int:ticket_id>/',views.showticket,name="showticket"),
     path('logout',views.logoutuser,name='logout'),
     path('completeticket/<int:ticket_id>',views.completeticket,name="completeticket"),
+    path('showuserlist',views.showuserlist,name="showuserlist"),
     path('api', views.getChartData.as_view(),name="chartapi"),
     path('api_data', views.getData.as_view(),name="getdata"),
+    path('auth', views.authAPI,name="authapi"),
+    path('getdataonauth', views.senddataontokenauth,name="getdataonauth"),
+
+
     
 ]

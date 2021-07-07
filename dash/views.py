@@ -92,7 +92,9 @@ def logoutuser(request):
     logout(request)
     return HttpResponseRedirect(reverse('dash:dashboard'))
 
-
+@login_required
+def showuserlist(request):
+    return render(request, 'dash/userlist.html',{'userlist':User.objects.all()})
 
 import base64
 import io
@@ -167,3 +169,36 @@ class getData(APIView):
 
         }
         return Response(data)
+
+from .models import tokens
+from rest_framework.decorators import api_view
+@api_view(['POST'])
+def authAPI(request):
+    if request.method == 'POST':
+        username = request.query_params.get('username')
+        print("YO")
+        print(username)
+        t = tokens(token_owner=username)
+        t.save()
+        x = tokens.objects.filter(token_owner=str(username))
+        data = {
+            'tokenid' : x[0].tokenid,
+            'tokenowner': x[0].token_owner
+        }
+        return Response(data)
+
+@api_view(['POST'])
+def senddataontokenauth(request):
+    if request.method == 'POST':
+        tokenid = request.query_params.get('tokenid')
+        tokenowner = request.query_params.get('tokenowner')
+        if tokens.objects.filter(token_owner=tokenowner,tokenid = tokenid):
+            data = {
+                'data' : 'ok'
+            }
+            return Response(data)
+        else:
+            data = {
+                'data' : 'error : Token Invalid'
+            }
+            return Response(data)
