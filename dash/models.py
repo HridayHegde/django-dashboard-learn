@@ -23,3 +23,7 @@ class tokens(models.Model):
     def __str__(self):
         return self.token_owner
 
+# class notifications(models.Model):
+#     notfitid = models.AutoField(primary_key=True)
+#     title = models.CharField(max_length=400)
+#     raisedon = models.DateTimeField(verbose_name='date created', auto_now_add=True)

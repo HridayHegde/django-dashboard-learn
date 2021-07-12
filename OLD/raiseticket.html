@@ -1,0 +1,13 @@
+<html>
+    <form action="{% url 'dash:raiseticket' %}" method="POST">
+    {% csrf_token %}
+        <h1> Title </h1><br><input type="text" name ="title" required/>
+        <h1> Description </h1><br><textarea name="description" required></textarea>
+        <h1> Customer Name </h1><br><textarea name="cust_name" required></textarea>
+        <h1> Customer Email </h1><br><textarea name="cust_email" required></textarea>
+        
+        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        <input type="submit" value="Raise Ticket"/>
+
+    </form>
+</html>

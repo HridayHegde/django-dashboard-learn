@@ -14,6 +14,9 @@ urlpatterns = [
     path('logout',views.logoutuser,name='logout'),
     path('completeticket/<int:ticket_id>',views.completeticket,name="completeticket"),
     path('showuserlist',views.showuserlist,name="showuserlist"),
+    path('raisenew',views.raisenew,name="raisenew"),
+
+
     path('api', views.getChartData.as_view(),name="chartapi"),
     path('api_data', views.getData.as_view(),name="getdata"),
     path('auth', views.authAPI,name="authapi"),

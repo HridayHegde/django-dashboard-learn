@@ -29,12 +29,13 @@ ALLOWED_HOSTS = ['*']
 
 #AUTH_USER_MODEL = "dash.Custom_User"
 LOGIN_URL = '/showlogin'
-
+#USE_TZ = False
 
 # Application definition
 
 INSTALLED_APPS = [
     'rest_framework',
+    #'notifications',
     'dash.apps.DashConfig',
     'django.contrib.admin',
     'django.contrib.auth',

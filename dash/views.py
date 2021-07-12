@@ -11,6 +11,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
+from .models import tokens
+from rest_framework.decorators import api_view
 
 from datetime import datetime
 import qrcode
@@ -19,15 +21,15 @@ import qrcode
 @login_required
 def dashboard(request):
     try:
-        t = Ticket.objects.filter(completed=False)
+        totalticks = Ticket.objects.all()
     except Ticket.DoesNotExist:
         raise Http404("Tickets do not exist")
     try:
-        totalticks = Ticket.objects.all()
+        t = Ticket.objects.filter(completed = False)
     except Ticket.DoesNotExist:
         raise Http404("Tickets donot exist")
     try:
-        completedticks = Ticket.objects.filter(completed=True)
+        completedticks = Ticket.objects.filter(completed=True).count()
     except Ticket.DoesNotExist:
         raise Http404("Tickets donot exist")
 
@@ -36,14 +38,17 @@ def dashboard(request):
         'ticketlist':t,
         'nooftickets': len(totalticks),
         'pendingtickets': len(t),
-        'completedtickets': int((len(completedticks)/len(totalticks))*100),
+        'completedtickets': int((completedticks/len(totalticks))*100),
         'upcomingduedate' : Ticket.objects.latest('-duedate').duedate.date,
-    
     }
     return render(request, 'dash/dashboard.html',context)
 
 def showticketform(request):
     return render(request,'dash/raiseticket.html',{})
+
+def raisenew(request):
+    return render(request,'dash/raiseticket.html',{})
+
 
 def raise_ticket(request):
     title = request.POST['title']
@@ -51,13 +56,18 @@ def raise_ticket(request):
     customer_name = request.POST['cust_name']
     customer_email = request.POST['cust_email']
     duedate = request.POST['duedate']
+    print(type(duedate))
     tick = Ticket(title=title,description=description,customer_name=customer_name,customer_email=customer_email,duedate=duedate)
     try:
         tick.save()
-    except OSError as e:
+        #notify.send(User.objects.get(username = "HridayHegde"),description="New Ticket Raised",verb="Message",recipient=User.objects.all(),timedata=str(datetime.now()))
+        return render(request,'dash/raiseticket.html',{'success_message': 'Ticket Raised'})
+    except Exception as e:
         print(e)
+        return render(request,'dash/raiseticket.html',{'error_message': 'Raising Failed'})
     
-    return HttpResponseRedirect(reverse('dash:showticketform'))
+
+
 
 def showuserreg(request):
     return render(request, 'dash/register.html')
@@ -69,9 +79,9 @@ def registeruser(request):
     user = User.objects.create_user(username,email,password)
     try:
         user.save()
-    except OSError as e:
+    except Exception as e:
         print(e)
-    return HttpResponseRedirect(reverse('dash:showlogin'))
+        return HttpResponseRedirect(reverse('dash:showlogin'))
 
 def showlogin(request):
     return render(request, 'dash/login.html',{})
@@ -103,8 +113,6 @@ from django.core import serializers
 def showticket(request,ticket_id):
     ticket = Ticket.objects.get(pk=ticket_id)
  
-
-    
     qrcode = generateQR("ticket_id:"+str(ticket.ticket_id)+", due_date:"+str(ticket.duedate)+",customer_name:"+str(ticket.customer_name)+",title:"+str(ticket.title)+",desc:"+str(ticket.description))
     return render(request, 'dash/showticket.html',{'ticketdata' : ticket, 'qrcode':qrcode})
 
@@ -158,6 +166,19 @@ class getChartData(APIView):
         }
         return Response(data)
 
+def refreshnotifications():
+    print("TODO")
+
+
+# @api_view(['POST'])
+# def getnotifications(request):
+#     if request.method == 'POST':
+        
+#         data = {
+#             'notifications'
+#         }
+#         return Response(data)
+
 import random
 class getData(APIView):
     authentication_classes = []
@@ -170,8 +191,8 @@ class getData(APIView):
         }
         return Response(data)
 
-from .models import tokens
-from rest_framework.decorators import api_view
+#change this
+
 @api_view(['POST'])
 def authAPI(request):
     if request.method == 'POST':
