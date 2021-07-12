@@ -40,7 +40,7 @@
                                         <hr>
                                         <hr>
                                     </form>
-                                    <div class="text-center"><a class="small" href="forgot-password.html">Forgot Password?</a></div>
+                                    {% comment %} <div class="text-center"><a class="small" href="forgot-password.html">Forgot Password?</a></div> {% endcomment %}
                                     <div class="text-center"><a class="small" href="{% url 'dash:showreguser' %}">Create an Account!</a></div>
                                     {% if error %}<p><strong>{{ error }}</strong></p>{% endif %}
                                 </div>
