@@ -35,7 +35,7 @@
                     {% comment %} <li class="nav-item"><a class="nav-link {% block register %}{% endblock %}" href="{% url 'dash:showreguser' %}"><i class="fas fa-user-circle"></i><span>Register</span></a></li> {% endcomment %}
                     <li class="nav-item"><a class="nav-link {% block showticketform %}{% endblock %}" href="{% url 'dash:showticketform'%}"><i class="fas fa-user-circle"></i><span>Raise Ticket</span></a></li>
                     <li class="nav-item"><a class="nav-link {% block showuserlist %}{% endblock %}" href="{% url 'dash:showuserlist' %}"><i class="fas fa-user-circle"></i><span>Show Users</span></a></li>
-                    <li class="nav-item"><a class="nav-link {% block showuserlist %}{% endblock %}" href="{% url 'dash:completedtickets' %}"><i class="fas fa-user-circle"></i><span>Show Completed Tickets</span></a></li>
+                    <li class="nav-item"><a class="nav-link {% block completedtickets %}{% endblock %}" href="{% url 'dash:completedtickets' %}"><i class="fas fa-user-circle"></i><span>Show Completed Tickets</span></a></li>
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
