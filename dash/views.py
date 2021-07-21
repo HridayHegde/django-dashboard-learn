@@ -45,6 +45,15 @@ def dashboard(request):
     }
     return render(request, 'dash/dashboard.html',context)
 
+
+@login_required
+def showcompletedtickets(request):
+    completedticks = Ticket.objects.filter(completed=True)
+    context = {
+        'ticketlist': completedticks,
+    }
+    return render(request,'dash/completed_list.html',context)
+
 def showticketform(request):
     return render(request,'dash/raiseticket.html',{})
 

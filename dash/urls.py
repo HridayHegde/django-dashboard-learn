@@ -15,6 +15,7 @@ urlpatterns = [
     path('completeticket/<int:ticket_id>',views.completeticket,name="completeticket"),
     path('showuserlist',views.showuserlist,name="showuserlist"),
     path('raisenew',views.raisenew,name="raisenew"),
+    path('completedtickets',views.showcompletedtickets,name="completedtickets"),
 
 
     path('api', views.getChartData.as_view(),name="chartapi"),

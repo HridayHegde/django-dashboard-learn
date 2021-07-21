@@ -1,0 +1,71 @@
+{% extends 'dash/base.html' %}
+{% load static %}
+{% block completedtickets %}active{% endblock %}
+{% block content %}
+
+<script>
+    $(document).ready(function() {
+        $('#datatobeutify').DataTable({"bAutoWidth": false});
+        console.log("here");
+    } );
+    
+</script>
+
+                
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6 mb-4" style="width: 100%;">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="text-primary fw-bold m-0">Completed Tickets</h6>
+                                </div>
+                                <div class="table-responsive">
+                                <table id="datatobeutify" class="" width=100%>
+                                    <thead>
+                                        <th>Name</th>
+                                        <th>Time Generated</th>
+                                        <th>Due Date</th>
+                                        <th>Raised by</th>
+                                        <th>Customer Email</th>
+                                        <th>Description</th>
+                                        <th>Ticket Details</th>
+                                    </thead>
+                                    <tbody>
+                                    {% for x in ticketlist %}
+                                    <a href="{% url 'dash:showticket' x.ticket_id %}" style="text-decoration: none;">
+                                    {% comment %} <li class="list-group-item"> {% endcomment %}
+                                    <tr>
+                                        {% comment %} <div class="row align-items-center no-gutters">
+                                            <div class="col me-2"> {% endcomment %}
+                                                    <td >{{x.title}}</td>
+                                                {% comment %} <div class="row"> {% endcomment %}
+                                                    <td class="col">{{x.datetime_created}}</td>
+                                                    <td class="col">{{x.duedate.date}}</td>
+                                                    <td class="col">{{x.customer_name}}</td>
+                                                    <td class="col">{{x.customer_email}}</td>
+                                                    <td class="col">{{x.description}}</td>
+                                                    <td class="col"><a class= "btn btn-primary" href="{% url 'dash:showticket' x.ticket_id %}" style="text-decoration: none;">Show Ticket</a></td>
+                                                {% comment %} </div> {% endcomment %}
+                                            {% comment %} </div> {% endcomment %}
+                                            {% comment %} <div class="col-auto">
+                                                <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1"></label></div>
+                                            </div> {% endcomment %}
+                                        {% comment %} </div> {% endcomment %}
+                                    {% comment %} </li> {% endcomment %}
+                                    </tr>
+                                    
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © Brand 2021</span></div>
+                </div>
+            </footer>
+{% endblock %}
