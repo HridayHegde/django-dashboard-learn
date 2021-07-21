@@ -2,7 +2,18 @@
 {% load static %}
 {% block dashboard %}active{% endblock %}
 {% block content %}
+<script>
+        $( document ).ready(function() {
+            $("#qr").hide();
+            $("#showqr").click(function(){
+                $("#showqr").hide();
+                $("#qr").show();
+            });
+        });
+        
+    </script>
 <div id="content">
+
                 <div class="container-fluid">
                     <div class="d-sm-flex justify-content-between align-items-center mb-4">
                         <h3 class="text-dark mb-0">Ticket No :{{ticketdata.ticket_id}}</h3>
@@ -71,7 +82,8 @@
                         <div class="col align-items-center">
                             <div class="card shadow border-start-primary py-2 align-items-center">
                                     <div class="card-body align-items-center">
-                                        <img src="data:image/png;base64, {{qrcode}}" alt="Red dot" />
+                                        <img id="qr" src="data:image/png;base64, {{qrcode}}" alt="Red dot" style=""/>
+                                        <button id="showqr" class="btn btn-success">Show QR Code</button>
                                     </div>
                             </div>
                         </div>

@@ -1,0 +1,15 @@
+.dataTables_wrapper .dataTables_length select{
+    border-radius: .8rem !important;
+}
+.dataTables_wrapper .dataTables_filter input{
+    border-radius: .8rem !important; 
+}
+.dataTables_wrapper .dataTables_length{
+    padding-left: 10px;
+}
+.dataTables_wrapper .dataTables_filter{
+    padding-right: 10px;
+}
+.dataTables_wrapper .dataTables_info{
+    padding-left: 10px;
+}

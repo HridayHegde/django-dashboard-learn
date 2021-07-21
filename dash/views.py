@@ -33,12 +33,14 @@ def dashboard(request):
     except Ticket.DoesNotExist:
         raise Http404("Tickets donot exist")
 
-   
+    calc = 0
+    if len(totalticks) != 0:
+       calc = int((completedticks/len(totalticks))*100)
     context = {
         'ticketlist':t,
         'nooftickets': len(totalticks),
         'pendingtickets': len(t),
-        'completedtickets': int((completedticks/len(totalticks))*100),
+        'completedtickets': calc,
         'upcomingduedate' : Ticket.objects.latest('-duedate').duedate.date,
     }
     return render(request, 'dash/dashboard.html',context)
@@ -56,16 +58,22 @@ def raise_ticket(request):
     customer_name = request.POST['cust_name']
     customer_email = request.POST['cust_email']
     duedate = request.POST['duedate']
-    print(type(duedate))
-    tick = Ticket(title=title,description=description,customer_name=customer_name,customer_email=customer_email,duedate=duedate)
+
     try:
-        tick.save()
-        #notify.send(User.objects.get(username = "HridayHegde"),description="New Ticket Raised",verb="Message",recipient=User.objects.all(),timedata=str(datetime.now()))
-        return render(request,'dash/raiseticket.html',{'success_message': 'Ticket Raised'})
+        tick = Ticket(title=title,description=description,customer_name=customer_name,customer_email=customer_email,duedate=duedate)
     except Exception as e:
         print(e)
-        return render(request,'dash/raiseticket.html',{'error_message': 'Raising Failed'})
-    
+        return render(request,'dash/raiseticket.html',{'error_message': 'Raising Failed, Please contact admin'})    
+    if tick:
+        try:
+            tick.save()
+            #notify.send(User.objects.get(username = "HridayHegde"),description="New Ticket Raised",verb="Message",recipient=User.objects.all(),timedata=str(datetime.now()))
+            return render(request,'dash/raiseticket.html',{'success_message': 'Ticket Raised'})
+        except Exception as e:
+            print(e)
+            return render(request,'dash/raiseticket.html',{'error_message': 'Raising Failed, Please contact admin'})
+    else:
+        raise Http404("Ticket data not found")
 
 
 
@@ -76,13 +84,29 @@ def registeruser(request):
     username = request.POST['username']
     email = request.POST['email']
     password = request.POST['password']
-    user = User.objects.create_user(username,email,password)
     try:
-        user.save()
+        user = User.objects.create_user(username,email,password)
     except Exception as e:
         print(e)
-        return HttpResponseRedirect(reverse('dash:showlogin'))
+        return render(request, 'dash/register.html',{"error":e})
+    if user:
+        user.save()
+        try:
+            userauth = authenticate(request,username=username,password=password)
+        except Exception as e:
+            print(e)
+            return render(request, 'dash/register.html',{"error":e})
 
+        if userauth is not None:
+            login(request,userauth)
+            return HttpResponseRedirect(reverse('dash:dashboard'))
+        else:
+            print("Invalid User")
+            return render(request, 'dash/login.html',{"error":"User does not Exist"})
+    else:
+        raise Http404("User not allowed")   
+    
+    
 def showlogin(request):
     return render(request, 'dash/login.html',{})
 

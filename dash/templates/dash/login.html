@@ -21,7 +21,7 @@
                     <div class="card-body p-0">
                         <div class="row">
                             <div class="col-lg-6 d-none d-lg-flex">
-                                <div class="flex-grow-1 bg-login-image" style="background-image: url(&quot;{% static 'dash/img/dogs/image3.jpeg&quot;);' %}"></div>
+                                <div class="flex-grow-1 bg-login-image" style="background-image: url({% static 'dash/img/dogs/image3.jpeg' %}"></div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="p-5">
@@ -30,8 +30,8 @@
                                     </div>
                                     <form class="user" action="{% url 'dash:login' %}" method="POST">
                                     {% csrf_token %}
-                                        <div class="mb-3"><input class="form-control form-control-user" type="text" id="username" aria-describedby="emailHelp" placeholder="Enter Username..." name="username"></div>
-                                        <div class="mb-3"><input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="Password" name="password"></div>
+                                        <div class="mb-3"><input class="form-control form-control-user" type="text" id="username" aria-describedby="emailHelp" placeholder="Enter Username..." name="username" required></div>
+                                        <div class="mb-3"><input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="Password" name="password" required></div>
                                         <div class="mb-3">
                                             <div class="custom-control custom-checkbox small">
                                                 {% comment %} <div class="form-check"><input class="form-check-input custom-control-input" type="checkbox" id="formCheck-1"><label class="form-check-label custom-control-label" for="formCheck-1">Remember Me</label></div> {% endcomment %}
